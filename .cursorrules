@@ -25,3 +25,7 @@ L'application est divisée en systèmes modulaires :
 - **Performances** : Éviter l'instanciation d'objets dans la Game Loop (utiliser des object pools si nécessaire).
 - **Extensibilité** : Tout le gameplay doit être "Data Driven" (ex: définir les technologies ou contrats dans des structures de données claires).
 - **Langue** : Commentaires de code et nommage en anglais. Dialogues du jeu potentiellement multilingues (Data-driven).
+
+## Workflow Git (Cursor)
+- **Auto-commit via Cursor hooks** : le repo embarque un hook projet (`.cursor/hooks.json`) qui tente un commit automatiquement après des éditions faites par Cursor (agent / Tab).
+- **Désactiver temporairement** : créer un fichier `.autocommit-disabled` à la racine du repo.
