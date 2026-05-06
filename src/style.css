@@ -1,0 +1,224 @@
+/* Reset et police rétro */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --os-bg: #008080;
+  --window-bg: #c0c0c0;
+  --window-border-light: #ffffff;
+  --window-border-dark: #808080;
+  --window-border-darker: #000000;
+  --title-bg-active: #000080;
+  --title-bg-inactive: #808080;
+  --text-color: #000000;
+  --text-light: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  image-rendering: pixelated;
+}
+
+#game-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--os-bg);
+}
+
+#world-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Pixel art setup */
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Les fenêtres internes réactiveront les events */
+}
+
+/* --- CRT Overlay --- */
+#crt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 9999;
+  opacity: 0.8;
+  mix-blend-mode: overlay;
+}
+
+#crt-overlay::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.4) 100%);
+}
+
+/* --- OS Windows 95 Style Windows --- */
+.os-window {
+  position: absolute;
+  background: var(--window-bg);
+  border-top: 2px solid var(--window-border-light);
+  border-left: 2px solid var(--window-border-light);
+  border-right: 2px solid var(--window-border-darker);
+  border-bottom: 2px solid var(--window-border-darker);
+  box-shadow: inset -1px -1px var(--window-border-dark), inset 1px 1px var(--window-border-light);
+  padding: 2px;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.os-window-header {
+  background: var(--title-bg-active);
+  color: var(--text-light);
+  padding: 4px 6px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+}
+
+.os-window-header:active {
+  cursor: grabbing;
+}
+
+.os-window-content {
+  padding: 8px;
+  color: var(--text-color);
+  flex-grow: 1;
+  background: #fff;
+  margin-top: 2px;
+  border-top: 2px solid var(--window-border-dark);
+  border-left: 2px solid var(--window-border-dark);
+  border-right: 2px solid var(--window-border-light);
+  border-bottom: 2px solid var(--window-border-light);
+}
+
+.os-btn {
+  background: var(--window-bg);
+  border-top: 2px solid var(--window-border-light);
+  border-left: 2px solid var(--window-border-light);
+  border-right: 2px solid var(--window-border-darker);
+  border-bottom: 2px solid var(--window-border-darker);
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.os-btn:active {
+  border-top: 2px solid var(--window-border-darker);
+  border-left: 2px solid var(--window-border-darker);
+  border-right: 2px solid var(--window-border-light);
+  border-bottom: 2px solid var(--window-border-light);
+  padding: 5px 11px 3px 13px; /* shift text */
+}
+
+/* Progress bars */
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background: #fff;
+  border: 1px solid var(--window-border-dark);
+  margin-top: 4px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #000080;
+  width: 0%;
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  line-height: 20px;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+/* --- Start Screen --- */
+.start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--os-bg);
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.start-screen.hidden {
+  display: none;
+}
+
+.start-content {
+  text-align: center;
+  background: var(--window-bg);
+  padding: 40px 60px;
+  border-top: 4px solid var(--window-border-light);
+  border-left: 4px solid var(--window-border-light);
+  border-right: 4px solid var(--window-border-darker);
+  border-bottom: 4px solid var(--window-border-darker);
+  box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+}
+
+.start-content h1 {
+  font-size: 64px;
+  color: #000080;
+  margin-top: 0;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px #fff;
+}
+
+.start-content .os-btn.btn-large {
+  display: block;
+  width: 100%;
+  font-size: 24px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}

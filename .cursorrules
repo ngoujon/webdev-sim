@@ -1,0 +1,27 @@
+# Web Dev Tycoon - Cursor Rules
+
+## Stack Technique
+- **Langage** : TypeScript strict
+- **Bundling** : Vite
+- **Rendu World/Simulation** : Vanilla Canvas 2D API (Génération procédurale de pixel art)
+- **UI System** : DOM/HTML/CSS classique avec style "Vieux OS 90s" (draggable windows, CRT fx) + interactions via TypeScript
+- **Audio** : WebAudio API (Synthèse procédurale, générateurs d'ondes pour SFX et Musique)
+- **Architecture** : Entity Component System (ECS) custom & State Machines
+- **Gestion d'état** : Game State centralisé, Data-driven
+
+## Architecture Globale
+L'application est divisée en systèmes modulaires :
+- `core/` : Boucle principale (Game Loop 60fps), Time management, Event Bus
+- `sim/` : Logique métier via ECS (Components, Systems, Entities). Simulation économique, tasks, employés.
+- `render/` : Moteur de dessin Canvas, génération procédurale d'assets (pièce, personnages, ordis).
+- `ui/` : Gestionnaire de fenêtres (Window Manager), boutons, composants UI DOM.
+- `audio/` : Moteur de synthèse WebAudio (Oscillateurs, enveloppes temporelles pour chiptunes et SFX).
+- `data/` : Configuration JSON (contrats, technologies, events).
+- `save/` : Système de sérialisation/désérialisation du Game State.
+
+## Conventions de Code
+- **Zéro Asset Externe** : Aucune image (.png, .jpg) ni son (.mp3, .wav). Tout est dessiné via le Canvas 2D ou synthétisé via WebAudio.
+- **Séparation des préoccupations** : La logique (`sim/`) ne doit jamais appeler directement le rendu (`render/`) ou l'UI (`ui/`). Communication par Data/Composants et Event Bus.
+- **Performances** : Éviter l'instanciation d'objets dans la Game Loop (utiliser des object pools si nécessaire).
+- **Extensibilité** : Tout le gameplay doit être "Data Driven" (ex: définir les technologies ou contrats dans des structures de données claires).
+- **Langue** : Commentaires de code et nommage en anglais. Dialogues du jeu potentiellement multilingues (Data-driven).

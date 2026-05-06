@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Dev Tycoon</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Rendu Canvas principal -->
+    <div id="game-container">
+      <canvas id="world-canvas"></canvas>
+      
+      <!-- Couche UI par-dessus le canvas -->
+      <div id="ui-layer"></div>
+    </div>
+    
+    <!-- Ecran d'accueil (Start Screen) -->
+    <div id="start-screen" class="start-screen">
+      <div class="start-content">
+        <h1>WEB DEV TYCOON</h1>
+        <div id="start-buttons">
+          <button class="os-btn btn-large" id="btn-continue" style="display:none;" onclick="window.startScreenLoad()">Continuer</button>
+          <button class="os-btn btn-large" onclick="window.startScreenNew()">Nouvelle Partie</button>
+          <button class="os-btn btn-large" style="margin-top: 20px; background-color: #8e44ad; color: white;" onclick="window.startScreenDevMode()">Mode Dev</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtres CSS pour le look rétro CRT -->
+    <div id="crt-overlay"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

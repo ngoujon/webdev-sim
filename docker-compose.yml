@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  webdev-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webdev-sim
+    ports:
+      - "3015:3015"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
