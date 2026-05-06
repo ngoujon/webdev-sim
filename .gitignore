@@ -21,3 +21,6 @@ pnpm-debug.log*
 
 # Auto-commit watcher
 .autocommit-disabled
+
+# Cursor hook auto-commit state
+.cursor/.autocommit-state.json
