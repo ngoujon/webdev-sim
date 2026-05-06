@@ -18,3 +18,6 @@ pnpm-debug.log*
 # Env
 .env
 .env.*
+
+# Auto-commit watcher
+.autocommit-disabled
