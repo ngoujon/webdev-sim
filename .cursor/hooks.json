@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/autocommit.mjs",
+        "timeout": 10
+      }
+    ],
+    "afterTabFileEdit": [
+      {
+        "command": ".cursor/hooks/autocommit.mjs",
+        "timeout": 10
+      }
+    ]
+  }
+}
