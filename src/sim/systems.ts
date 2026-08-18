@@ -114,8 +114,6 @@ export function createNeedsSystem() {
     // Determine player position zones
     const px = GameState.playerPos.x;
     const py = GameState.playerPos.y;
-    const w = window.innerWidth / 4;
-    const h = window.innerHeight / 4;
     const mapW = GameState.officeLevel >= 3 ? (450 + (GameState.openSpaceBlocks * 320) + 150) : (GameState.officeLevel === 2 ? 500 : 280);
     const mapH = GameState.officeLevel >= 2 ? 300 : 200;
     let onBed = false;
@@ -312,8 +310,6 @@ export function createEmployeeSystem() {
     const employees = employeeQuery(world);
     const time = GameState.timeOfDay;
 
-    const w = window.innerWidth / 4;
-    const h = window.innerHeight / 4;
     const mapW = GameState.officeLevel >= 3 ? (450 + (GameState.openSpaceBlocks * 320) + 150) : (GameState.officeLevel === 2 ? 500 : 280);
     const mapH = GameState.officeLevel >= 2 ? 300 : 200;
     

@@ -71,7 +71,7 @@ export class AudioEngine {
     
     // Calcul du volume basé sur la distance (0 proche -> max 0.03, 300 loin -> 0)
     const vol = Math.max(0, 1 - (distance / 300)) * 0.03; // Volume baissé
-    this.serverGain.gain.setTargetAtTime(vol, this.ctx.currentTime, 0.1);
+    this.serverGain?.gain.setTargetAtTime(vol, this.ctx.currentTime, 0.1);
 
     // Ajout de petits bips aléatoires typiques d'un serveur quand on est proche
     if (vol > 0 && Math.random() < 0.02 && this.volumes.sfx > 0) {

@@ -162,6 +162,12 @@ export class DesktopUI {
     }
   }
 
+  public closeWindowIfOpen(id: string) {
+    if (this.wm.hasWindow(id)) {
+      this.wm.closeWindow(id);
+    }
+  }
+
   public openPauseMenu() {
     this.toggleWindow('pause-menu', () => {
       GameState.isPaused = true;

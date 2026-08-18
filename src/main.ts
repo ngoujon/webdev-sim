@@ -49,19 +49,18 @@ const autoAcceptContracts = () => {
     if (contract) {
       const pEid = addEntity(world);
       addComponent(world, Project, pEid);
+      Project.id[pEid] = pEid;
       Project.budget[pEid] = contract.budget;
-      Project.difficulty[pEid] = contract.difficulty;
-      Project.requiredFe[pEid] = contract.requiredTasks.frontend;
-      Project.requiredBe[pEid] = contract.requiredTasks.backend;
-      Project.requiredDes[pEid] = contract.requiredTasks.design;
-      Project.progressFe[pEid] = 0;
-      Project.progressBe[pEid] = 0;
-      Project.progressDes[pEid] = 0;
+      Project.totalFrontend[pEid] = contract.requiredTasks.frontend;
+      Project.totalBackend[pEid] = contract.requiredTasks.backend;
+      Project.totalDesign[pEid] = contract.requiredTasks.design;
+      Project.progressFrontend[pEid] = 0;
+      Project.progressBackend[pEid] = 0;
+      Project.progressDesign[pEid] = 0;
       Project.isCompleted[pEid] = 0;
-      
+
       const deadlineDay = GameState.day + (contract.deadlineDays || 5);
 
-      GameState.activeProjects.push(pEid);
       GameState.projectInfos.set(pEid, { title: contract.title, budget: contract.budget, deadlineDay });
       accepted = true;
     }
@@ -716,11 +715,28 @@ EventBus.on('OPEN_SALES_DIR_MENU', () => {
   location.reload();
 };
 
-(window as any).saveGame = () => {
+const silentSave = () => {
   GameState.openedWindows = ui.getOpenWindowsState();
   SaveManager.save();
+};
+
+(window as any).saveGame = () => {
+  silentSave();
   ui.showDialog("Sauvegarde", "Partie sauvegardée avec succès !");
 };
+
+// Sauvegarde automatique à chaque changement de jour in-game, et à la fermeture de l'onglet
+let lastAutoSaveDay = GameState.day;
+EventBus.on('TIME_TICK', (data: { day: number, time: number }) => {
+  if (!GameState.isPaused && data.day !== lastAutoSaveDay) {
+    lastAutoSaveDay = data.day;
+    silentSave();
+  }
+});
+
+window.addEventListener('beforeunload', () => {
+  if (!GameState.isPaused) silentSave();
+});
 
 (window as any).openSettings = () => {
   ui.openSettingsWindow();
@@ -779,12 +795,13 @@ EventBus.on('OPEN_CLEANER_MENU', () => {
       salary: 200,
       level: 1, xp: 0, xpToNextLevel: 100,
       employedSinceDay: GameState.day,
-      skinColor: '#e67e22', shirtColor: '#3498db', pantsColor: '#2c3e50', hairColor: '#111', shoesColor: '#111'
+      retireAtDay: Infinity, // Les agents d'entretien ne partent pas à la retraite
+      visuals: {
+        skinColor: '#e67e22', shirtColor: '#3498db', pantsColor: '#2c3e50', hairColor: '#111', shoesColor: '#111'
+      }
     });
-    
-    if (ui.wm.hasWindow('cleaner')) {
-      ui.wm.closeWindow('cleaner');
-    }
+
+    ui.closeWindowIfOpen('cleaner');
   } else if (GameState.money < 400) {
     ui.showDialog("Fonds insuffisants", "Il vous faut $400 pour engager l'agent d'entretien.");
   }
@@ -850,8 +867,6 @@ const gameLoop = new GameLoop(
     
     GameState.isMoving = (dx !== 0 || dy !== 0);
 
-    const w = window.innerWidth / 4;
-    const h = window.innerHeight / 4;
     const mapW = GameState.officeLevel >= 3 ? (450 + (GameState.openSpaceBlocks * 320) + 150) : (GameState.officeLevel === 2 ? 500 : 280);
     const mapH = GameState.officeLevel >= 2 ? 300 : 200;
     
