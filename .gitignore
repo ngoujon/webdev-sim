@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # Cursor hook auto-commit state
 .cursor/.autocommit-state.json
+
+# Playwright MCP artifacts
+.playwright-mcp/
