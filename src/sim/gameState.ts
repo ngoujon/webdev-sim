@@ -37,11 +37,18 @@ export const GameState = {
   xp: 0,
   xpToNextLevel: 100,
   
-  // Player stats
-  skills: {
-    frontend: 1,
-    backend: 1,
-    design: 1
+  // Progression des compétences du joueur (Frontend/Backend/Design)
+  // Les valeurs de compétence elles-mêmes vivent dans le composant ECS Employee (playerEid),
+  // ceci ne suit que l'XP accumulée par compétence pour déclencher les montées de niveau.
+  playerSkillXp: {
+    frontend: 0,
+    backend: 0,
+    design: 0
+  },
+  playerSkillXpToNextLevel: {
+    frontend: 50,
+    backend: 50,
+    design: 50
   },
   
   // Active projects info dictionary since ECS doesn't store strings easily

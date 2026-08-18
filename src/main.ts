@@ -487,6 +487,11 @@ EventBus.on('EMPLOYEE_LEVEL_UP', (data) => {
   ui.showToast(`${data.title} a atteint le niveau ${data.level} !`, 'info');
 });
 
+EventBus.on('PLAYER_SKILL_LEVEL_UP', (data) => {
+  audioEngine.playSuccessSound();
+  ui.showToast(`Votre compétence ${data.skill} passe niveau ${data.level} !`, 'info');
+});
+
 EventBus.on('PROJECT_FAILED', (data) => {
   audioEngine.playClickSound(); // Fallback son
   ui.showToast(`Deadline dépassée pour "${data.title}". Pénalité de $${data.budget / 2} !`, 'error');

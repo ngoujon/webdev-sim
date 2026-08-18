@@ -613,7 +613,7 @@ export function createWorkSystem() {
                 empInfo.xp -= empInfo.xpToNextLevel;
                 empInfo.level += 1;
                 empInfo.xpToNextLevel = Math.floor(empInfo.xpToNextLevel * 1.5);
-                
+
                 // Increase skills based on role
                 if (empInfo.role === 'dev') {
                   Employee.frontendSkill[emp] += 1;
@@ -621,9 +621,25 @@ export function createWorkSystem() {
                 } else if (empInfo.role === 'designer') {
                   Employee.designSkill[emp] += 1;
                 }
-                
+
                 import('../core/EventBus').then(m => m.EventBus.emit('EMPLOYEE_LEVEL_UP', { title: empInfo.title, level: empInfo.level }));
               }
+            }
+          }
+
+          // Le joueur progresse aussi en compétence, dans la discipline sur laquelle il travaille
+          if (isPlayer && employeeWorked.has(emp)) {
+            const skillKey = currentPhase === 'fe' ? 'frontend' : currentPhase === 'be' ? 'backend' : 'design';
+            GameState.playerSkillXp[skillKey] += dtSeconds * 5; // même rythme que les employés
+            if (GameState.playerSkillXp[skillKey] >= GameState.playerSkillXpToNextLevel[skillKey]) {
+              GameState.playerSkillXp[skillKey] -= GameState.playerSkillXpToNextLevel[skillKey];
+              GameState.playerSkillXpToNextLevel[skillKey] = Math.floor(GameState.playerSkillXpToNextLevel[skillKey] * 1.5);
+
+              const skillColumn = skillKey === 'frontend' ? Employee.frontendSkill : skillKey === 'backend' ? Employee.backendSkill : Employee.designSkill;
+              skillColumn[emp] += 1;
+
+              const skillLabel = skillKey === 'frontend' ? 'Frontend' : skillKey === 'backend' ? 'Backend' : 'Design';
+              import('../core/EventBus').then(m => m.EventBus.emit('PLAYER_SKILL_LEVEL_UP', { skill: skillLabel, level: skillColumn[emp] }));
             }
           }
         }
