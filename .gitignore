@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # Playwright MCP artifacts
 .playwright-mcp/
+
+# Remap ports Docker local (multi-projet) — jamais commité
+docker-compose.override.yml
