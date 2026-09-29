@@ -35,7 +35,7 @@ A browser management game about running a web agency, drawn entirely in pixel ar
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run dev      # http://localhost:3015
 npm run build    # type-check + production build in dist/
 ```
 
